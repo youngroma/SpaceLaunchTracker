@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'launch_tracker',
+
+    'corsheaders',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -103,7 +105,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True # only during development
 
 ROOT_URLCONF = 'config.urls'
 
