@@ -1,0 +1,30 @@
+{% extends 'launch_tracker/base.html' %}
+
+{% block content %}
+<section id="launches">
+    <h2>Past Launches</h2>
+    <div class="launch-grid">
+        {% for launch in launches %}
+        <div class="launch-card">
+            <img src="{{ launch.image }}" alt="Patch">
+            <h3>{{ launch.name }}</h3>
+            <p class="launch-description">
+                {% if launch.details %}
+                    {{ launch.details|slice:":150" }}{% if launch.details|length > 100 %}...{% endif %}
+                {% else %}
+                    No description available
+                {% endif %}
+            </p>
+            <p><strong>Date:</strong> {{ launch.date|date:"Y-m-d H:i" }}</p>
+            <p><strong>Flight #:</strong> {{ launch.flight_number }}</p>
+            <p>
+                <a href="{{ launch.youtube }}" target="_blank">▶ YouTube</a> |
+                <a href="{{ launch.article }}" target="_blank">Article</a> |
+                <a href="{{ launch.wikipedia }}" target="_blank">Wikipedia</a>
+            </p>
+            <a href="{% url 'page' launch.id %}">Read More</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
