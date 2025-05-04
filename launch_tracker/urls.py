@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import LaunchListView, LoginView, FavoritesView, LaunchDetailView, RegisterView, LogoutView
+from .views import LaunchListView, FavoritesView, LaunchDetailView
+from .auth_views import LoginView, LogoutView, RegisterView
 
 urlpatterns = [
     path('', LaunchListView.as_view(), name="index"),
