@@ -1,10 +1,11 @@
 from datetime import datetime
-
 import requests
 from django.shortcuts import render
-from django.utils.timezone import make_aware
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
+from django.contrib.auth.views import LoginView, LogoutView
+from .forms import UserRegisterForm
 from .models import FavoriteLaunch, User
 
 
@@ -46,8 +47,21 @@ class FavoritesView(TemplateView):
         return context
 
 
-class LoginView(TemplateView):
-    template_name = "launch_tracker/login.html"
+class LoginView(LoginView):
+    template_name = 'launch_tracker/login.html'
+
+
+class LogoutView(LogoutView):
+    next_page = 'index'
+
+class RegisterView(FormView):
+    template_name = 'launch_tracker/register.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 class LaunchDetailView(View):
     def get(self, request, pk):
