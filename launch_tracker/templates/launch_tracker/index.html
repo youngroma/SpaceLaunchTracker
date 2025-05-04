@@ -9,6 +9,16 @@
 {% block content %}
 <section id="launches">
     <h2>Past Launches</h2>
+<form method="get" class="sort-form">
+    <label for="sort">Sort by:</label>
+    <select name="sort_by" id="sort" onchange="this.form.submit()">
+        <option value="">-- Choose --</option>
+        <option value="name-asc" {% if sort_option == 'name-asc' %}selected{% endif %}>Name (A-Z)</option>
+        <option value="name-desc" {% if sort_option == 'name-desc' %}selected{% endif %}>Name (Z-A)</option>
+        <option value="date-asc" {% if sort_option == 'date-asc' %}selected{% endif %}>Date (Oldest First)</option>
+        <option value="date-desc" {% if sort_option == 'date-desc' %}selected{% endif %}>Date (Newest First)</option>
+    </select>
+</form>
     <div class="launch-grid">
         {% for launch in launches %}
         <div class="launch-card">
@@ -33,4 +43,8 @@
         {% endfor %}
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

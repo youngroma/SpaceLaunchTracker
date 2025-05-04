@@ -11,24 +11,43 @@ class LaunchListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        response = requests.get('https://api.spacexdata.com/v4/launches/past')
-        launches = response.json()
+        request = self.request
+        sort_option = request.GET.get('sort_by', 'date-desc')
 
-        context['launches'] = [
-            {
+        response = requests.get('https://api.spacexdata.com/v4/launches/past')
+        launches_raw = response.json()
+
+        launches = []
+        for launch in launches_raw:
+            try:
+                parsed_date = datetime.fromisoformat(launch['date_utc'].replace('Z', '+00:00'))
+            except (KeyError, ValueError):
+                continue
+
+            launches.append({
                 'id': launch['id'],
                 'name': launch['name'],
-                'date': datetime.fromisoformat(launch['date_utc'].replace('Z', '+00:00')),
-                'flight_number': launch['flight_number'],
+                'date': parsed_date,
+                'flight_number': launch.get('flight_number'),
                 'details': launch.get('details'),
-                'youtube': f"https://youtu.be/{launch['links']['youtube_id']}" if launch['links'].get(
+                'youtube': f"https://youtu.be/{launch['links'].get('youtube_id')}" if launch['links'].get(
                     'youtube_id') else None,
                 'article': launch['links'].get('article'),
                 'wikipedia': launch['links'].get('wikipedia'),
                 'image': launch['links']['patch']['small'],
-            }
-            for launch in launches
-        ]
+            })
+
+        if sort_option == 'name-asc':
+            launches.sort(key=lambda x: x['name'])
+        elif sort_option == 'name-desc':
+            launches.sort(key=lambda x: x['name'], reverse=True)
+        elif sort_option == 'date-asc':
+            launches.sort(key=lambda x: x['date'])
+        elif sort_option == 'date-desc':
+            launches.sort(key=lambda x: x['date'], reverse=True)
+
+        context['launches'] = launches
+        context['sort_option'] = sort_option
         return context
 
 
