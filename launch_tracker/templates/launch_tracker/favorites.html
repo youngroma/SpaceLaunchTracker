@@ -1,0 +1,32 @@
+{% extends 'launch_tracker/base.html' %}
+
+{% load static %}
+
+{% block title %}Favorites — SpaceX Launch Tracker{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/favorites.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="favorites-section">
+    <h2 class="sci-fi-heading">Your Favorite Launches</h2>
+
+    {% if favorites %}
+        <div class="launch-grid">
+            {% for favorite in favorites %}
+                <div class="launch-card">
+                    <a href="{% url 'page' favorite.launch_id %}" class="launch-link">
+                        <div class="launch-id-container">
+                            <h3>Launch ID: {{ favorite.launch_id }}</h3>
+                        </div>
+                        <p>Click to view details</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-favorites-message">You haven't added any launches to favorites yet.</p>
+    {% endif %}
+</section>
+{% endblock %}
