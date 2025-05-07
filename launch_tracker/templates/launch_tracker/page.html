@@ -1,0 +1,96 @@
+{% extends "launch_tracker/base.html" %}
+{% load static %}
+
+{% block title %}{{ launch.name }} | Launch Details{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/page.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="launch-detail-container">
+    {% if launch.links.patch.large %}
+        <div class="image-block">
+            <img src="{{ launch.links.patch.large }}" alt="{{ launch.name }} patch" class="launch-patch">
+        </div>
+    {% endif %}
+
+    <section class="launch-info">
+        <h2 class="sci-fi-heading">{{ launch.name }}</h2>
+        <p class="launch-date"><strong>Launch Date:</strong> {{ launch.date_utc|date:"F j, Y H:i" }} UTC</p>
+        <p><strong>Flight Number:</strong> {{ launch.flight_number }}</p>
+
+        {% if launch.mission_name %}
+            <p><strong>Mission Name:</strong> {{ launch.mission_name }}</p>
+        {% endif %}
+
+        {% if launch.details %}
+            <p class="description">{{ launch.details }}</p>
+        {% else %}
+            <p class="description">No additional mission details available.</p>
+        {% endif %}
+
+        {% if launch.launch_failure_details %}
+            <div class="failure-details">
+                <h3>Launch Failure Details</h3>
+                <p><strong>Time:</strong> {{ launch.launch_failure_details.time }} seconds</p>
+                <p><strong>Altitude:</strong> {% if launch.launch_failure_details.altitude %}{{ launch.launch_failure_details.altitude }} meters{% else %}N/A{% endif %}</p>
+                <p><strong>Reason:</strong> {{ launch.launch_failure_details.reason }}</p>
+            </div>
+        {% endif %}
+
+        <div class="launch-data-grid">
+            <div><strong>Success:</strong> {{ launch.success|yesno:"Yes,No,Unknown" }}</div>
+            <div><strong>Rocket ID:</strong> {{ launch.rocket }}</div>
+
+                {% if launch.rocket.rocket_name %}
+                    <div><strong>Rocket Name:</strong> {{ launch.rocket.rocket_name }}</div>
+                {% endif %}
+
+                {% if launch.rocket.rocket_type %}
+                    <div><strong>Rocket Type:</strong> {{ launch.rocket.rocket_type }}</div>
+                {% endif %}
+
+                {% if launch.rocket.nationality %}
+                    <div><strong>Rocket Nationality:</strong> {{ launch.rocket.nationality }}</div>
+                {% endif %}
+
+
+            <div><strong>Launchpad:</strong> {{ launch.launchpad }}</div>
+            <div><strong>Upcoming:</strong> {{ launch.upcoming|yesno:"Yes,No" }}</div>
+            <div><strong>Static Fire Date:</strong> {{ launch.static_fire_date_utc|default:"N/A" }}</div>
+            <div><strong>Payloads:</strong>
+                {% if launch.payloads %}
+                    {{ launch.payloads|length }} payload(s)
+                {% else %}
+                    None
+                {% endif %}
+            </div>
+        </div>
+
+        {% if launch.links.flickr.original %}
+            <div class="gallery">
+                <h3>Launch Photos</h3>
+                {% for photo in launch.links.flickr.original %}
+                    <img src="{{ photo }}" alt="Launch photo" class="launch-photo">
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="links">
+            {% if launch.links.webcast %}
+                <a href="{{ launch.links.webcast }}" target="_blank" class="btn-details">🎥 Webcast</a>
+            {% endif %}
+            {% if launch.links.youtube_id %}
+                <a href="https://youtube.com/watch?v={{ launch.links.youtube_id }}" target="_blank" class="btn-details">▶️ YouTube</a>
+            {% endif %}
+            {% if launch.links.article %}
+                <a href="{{ launch.links.article }}" target="_blank" class="btn-details">📰 Article</a>
+            {% endif %}
+            {% if launch.links.wikipedia %}
+                <a href="{{ launch.links.wikipedia }}" target="_blank" class="btn-details">🌐 Wikipedia</a>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
