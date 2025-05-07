@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}SpaceX Launch Tracker{% endblock %}</title>
@@ -13,21 +14,28 @@
 <body>
     <header>
         <h1>SpaceX Launch Tracker</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/favorites/">Favorites</a></li>
-                    {% if user.is_authenticated %}
+                    <nav>
+                <div class="nav-links">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/favorites/">Favorites</a></li>
+                        {% if not user.is_authenticated %}
+                            <li><a href="{% url 'login' %}">Log in</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                {% if user.is_authenticated %}
+                <div class="user-controls">
                     <p>Hi, {{ user.username }}!</p>
-                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                    <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
                         <button type="submit">Logout</button>
                     </form>
-                {% else %}
-                    <a href="{% url 'login' %}">Log in</a>
-                    {% endif %}
-            </ul>
-        </nav>
+                </div>
+                {% endif %}
+            </nav>
+
     </header>
 
     <main>
