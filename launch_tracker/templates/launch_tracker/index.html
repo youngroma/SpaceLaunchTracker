@@ -1,50 +1,54 @@
 {% extends 'launch_tracker/base.html' %}
-
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
 <section id="launches">
     <h2>Past Launches</h2>
-<form method="get" class="sort-form">
-    <label for="sort">Sort by:</label>
-    <select name="sort_by" id="sort" onchange="this.form.submit()">
-        <option value="">-- Choose --</option>
-        <option value="name-asc" {% if sort_option == 'name-asc' %}selected{% endif %}>Name (A-Z)</option>
-        <option value="name-desc" {% if sort_option == 'name-desc' %}selected{% endif %}>Name (Z-A)</option>
-        <option value="date-asc" {% if sort_option == 'date-asc' %}selected{% endif %}>Date (Oldest First)</option>
-        <option value="date-desc" {% if sort_option == 'date-desc' %}selected{% endif %}>Date (Newest First)</option>
-    </select>
-</form>
+
+    <form method="get" class="sort-form">
+        <label for="sort">Sort by:</label>
+        <select name="sort_by" id="sort" onchange="this.form.submit()">
+            <option value="">-- Choose --</option>
+            <option value="name-asc" {% if sort_option == 'name-asc' %}selected{% endif %}>Name (A-Z)</option>
+            <option value="name-desc" {% if sort_option == 'name-desc' %}selected{% endif %}>Name (Z-A)</option>
+            <option value="date-asc" {% if sort_option == 'date-asc' %}selected{% endif %}>Date (Oldest First)</option>
+            <option value="date-desc" {% if sort_option == 'date-desc' %}selected{% endif %}>Date (Newest First)</option>
+        </select>
+    </form>
+
     <div class="launch-grid">
         {% for launch in launches %}
-        <div class="launch-card">
-            <img src="{{ launch.image }}" alt="Patch">
-            <h3>{{ launch.name }}</h3>
-            <p class="launch-description">
-                {% if launch.details %}
-                    {{ launch.details|slice:":150" }}{% if launch.details|length > 100 %}...{% endif %}
-                {% else %}
-                    No description available
-                {% endif %}
-            </p>
-            <p><strong>Date:</strong> {{ launch.date|date:"Y-m-d H:i" }}</p>
-            <p><strong>Flight #:</strong> {{ launch.flight_number }}</p>
-            <p>
-                <a href="{{ launch.youtube }}" target="_blank">▶ YouTube</a> |
-                <a href="{{ launch.article }}" target="_blank">Article</a> |
-                <a href="{{ launch.wikipedia }}" target="_blank">Wikipedia</a>
-            </p>
-            <a href="{% url 'page' launch.id %}">Read More</a>
-        </div>
+            <div class="launch-card">
+                <a href="{% url 'page' launch.id %}" class="launch-link">
+                    <img src="{{ launch.image }}" alt="{{ launch.name }} patch" class="launch-image">
+                    <h3>{{ launch.name }}</h3>
+                    <p class="launch-description">
+                        {% if launch.details %}
+                            {{ launch.details|slice:":150" }}{% if launch.details|length > 150 %}...{% endif %}
+                        {% else %}
+                            No description available
+                        {% endif %}
+                    </p>
+                    <p><strong>Date:</strong> {{ launch.date|date:"Y-m-d H:i" }}</p>
+                    <p><strong>Flight #:</strong> {{ launch.flight_number }}</p>
+                        <a href="{% url 'page' launch.id %}" class="btn-details">Read More</a>
+                </a>
+
+                <div class="links">
+                    {% if launch.youtube %}<a href="{{ launch.youtube }}" target="_blank">▶ YouTube</a>{% endif %}
+                    {% if launch.article %} | <a href="{{ launch.article }}" target="_blank">Article</a>{% endif %}
+                    {% if launch.wikipedia %} | <a href="{{ launch.wikipedia }}" target="_blank">Wikipedia</a>{% endif %}
+                </div>
+            </div>
         {% endfor %}
     </div>
 </section>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
