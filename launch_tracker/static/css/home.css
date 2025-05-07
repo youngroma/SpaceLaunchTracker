@@ -1,80 +1,148 @@
-section {
-    padding: 2em;
+body {
+    background: radial-gradient(circle at center, #000010 0%, #000 100%);
+    color: #e0f7ff;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.sci-fi-heading {
+    font-size: 2.5em;
     text-align: center;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 1) 100%);
+    margin-top: 1em;
+    color: #00ffff;
+    text-shadow: 0 0 15px #00ffff;
+    letter-spacing: 0.1em;
+}
+
+.sort-form {
+    position: absolute;
+    top: 1.5em;
+    right: 2em;
+    max-width: 240px;
+    text-align: center;
+    padding: 1em 1.5em;
+    border: 2px solid #00aaff;
+    background: linear-gradient(135deg, #111, #1c1c1c);
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 170, 255, 0.6);
+    font-family: 'Orbitron', sans-serif;
+    z-index: 100;
+}
+
+
+.sort-form label {
+    color: #00aaff;
+    font-size: 1em;
+    margin-bottom: 0.5em;
+    display: block;
+}
+
+.sort-form select {
+    width: 100%;
+    padding: 0.5em;
+    background-color: #000;
+    color: #00aaff;
+    border: 1px solid #00aaff;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.sort-form select:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 170, 255, 0.8);
 }
 
 .launch-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2em;
-    margin-top: 2em;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5em;
+    margin: 2em;
+    padding-bottom: 3em;
 }
 
+@media (min-width: 1200px) {
+    .launch-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+
+
 .launch-card {
-    background: linear-gradient(145deg, #222, #333);
-    border: 1px solid #444;
+    background: linear-gradient(145deg, #111, #1a1a1a);
+    border: 2px solid #00aaff;
     padding: 1.5em;
     border-radius: 15px;
-    text-align: left;
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    max-width: 350px;
-    min-height: 500px; /* Задаем минимальную высоту для карточки */
-    width: 100%; /* Карточки будут заполнять всю доступную ширину */
-    box-sizing: border-box; /* Учитываем padding и border при вычислении ширины */
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
+
+
 
 .launch-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 30px rgba(0, 170, 255, 0.6);
+}
+
+.launch-card h3 {
+    font-size: 1.4em;
+    color: #00ffff;
+    margin: 0.5em 0;
+}
+
+.launch-description {
+    color: #aaa;
+    font-style: italic;
+}
+
+.links a {
+    color: #1da1f2;
+    margin: 0 0.3em;
+    text-decoration: none;
+}
+
+.links a:hover {
+    color: #00ffff;
+}
+
+.launch-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.launch-link:hover h3 {
+    color: #00ffff;
+}
+
+.launch-link:hover .launch-image {
+    opacity: 0.9;
 }
 
 .launch-image {
     width: 100%;
-    height: auto;
     border-radius: 10px;
-    margin-bottom: 1.5em;
-    transition: transform 0.3s;
+    margin-bottom: 1em;
+    transition: opacity 0.3s ease;
 }
 
-.launch-image:hover {
-    transform: scale(1.05);
-}
-
-.launch-card h3 {
-    font-size: 1.6em;
-    color: #00aaff;
-    margin-bottom: 0.5em;
-}
-
-.launch-card p {
-    margin: 0.5em 0;
-    color: #ccc;
-}
-
-.launch-card .launch-description {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    color: #bbb;
-    font-style: italic;
-}
-
-.launch-card a {
-    color: #1da1f2;
-    text-decoration: none;
-    margin-top: 1em;
-    font-size: 1.1em;
+.btn-details {
     display: inline-block;
-    transition: color 0.3s;
+    margin-top: 1em;
+    padding: 0.6em 1.2em;
+    background-color: #00aaff;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.launch-card a:hover {
-    color: #00aaff;
+.btn-details:hover {
+    background-color: #0088cc;
+    transform: scale(1.05);
 }
