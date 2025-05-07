@@ -14,6 +14,7 @@ body {
     border-radius: 20px;
     border: 2px solid #00aaff;
     box-shadow: 0 0 30px rgba(0, 170, 255, 0.3);
+    overflow: hidden;
 }
 
 .image-block {
@@ -35,6 +36,7 @@ body {
     font-size: 1.2em;
     color: #00ffff;
     margin: 0.5em 0;
+    word-wrap: break-word; /* Ensure long dates break properly */
 }
 
 .description {
@@ -43,6 +45,8 @@ body {
     margin-top: 1.5em;
     margin-bottom: 2em;
     line-height: 1.6;
+    word-wrap: break-word; /* Ensure long descriptions break properly */
+    overflow-wrap: break-word;
 }
 
 .launch-data-grid {
@@ -55,6 +59,7 @@ body {
     border-radius: 15px;
     margin-bottom: 2em;
     box-shadow: inset 0 0 10px rgba(0, 170, 255, 0.2);
+    overflow: hidden; /* Prevent text from spilling out */
 }
 
 .launch-data-grid div {
@@ -64,6 +69,8 @@ body {
     border: 1px solid #00aaff55;
     text-align: left;
     font-size: 0.95em;
+    word-wrap: break-word; /* Ensure long words break correctly */
+    overflow-wrap: break-word;
 }
 
 .gallery {
