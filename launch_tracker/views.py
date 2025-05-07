@@ -1,6 +1,7 @@
 from datetime import datetime
 import requests
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
 from .models import FavoriteLaunch, User
@@ -61,6 +62,11 @@ class FavoritesView(TemplateView):
         else:
             context["favorites"] = []
         return context
+
+class AddToFavoritesView(LoginRequiredMixin, View):
+    def post(self, request, launch_id):
+        FavoriteLaunch.objects.get_or_create(user=request.user, launch_id=launch_id)
+        return redirect("page", pk=launch_id)
 
 
 class LaunchDetailView(View):
