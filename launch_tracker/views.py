@@ -66,7 +66,7 @@ class FavoritesView(TemplateView):
 class AddToFavoritesView(LoginRequiredMixin, View):
     def post(self, request, launch_id):
         FavoriteLaunch.objects.get_or_create(user=request.user, launch_id=launch_id)
-        return redirect("page", pk=launch_id)
+        return redirect("page", launch_id=launch_id)
 
 
 class LaunchDetailView(View):
@@ -87,8 +87,13 @@ class LaunchDetailView(View):
         if date_str:
             launch["date_converted"] = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
 
+        is_favorite = False
+        if request.user.is_authenticated:
+            is_favorite = FavoriteLaunch.objects.filter(user=request.user, launch_id=launch_id).exists()
+
         launch["rocket"] = rocket_data
 
         return render(request, "launch_tracker/page.html", {
-            "launch": launch
+            "launch": launch,
+            "is_favorite": is_favorite,
         })

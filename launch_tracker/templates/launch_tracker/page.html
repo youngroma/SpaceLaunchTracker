@@ -27,9 +27,15 @@
 
         <div><strong>Description:</strong> {{ launch.rocket.description }}</div>
 
-            <div class="launch-actions">
-                <a href="{% url 'add_to_favorites' launch.id %}" class="btn-add-to-favorites">Add to Favorites</a>
-            </div>
+            {% if is_favorite %}
+                <div class="already-favorite">✓ Added to Favorites</div>
+            {% else %}
+                <form method="post" action="{% url 'add_to_favorites' launch.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-add-to-favorites">Add to Favorites</button>
+                </form>
+            {% endif %}
+
 
 
 
