@@ -20,15 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const scrollBtn = document.getElementById('scrollToTop');
 
-window.addEventListener('scroll', () => {
-    scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
-});
-
-scrollBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+if (scrollBtn) {
+    window.addEventListener('scroll', () => {
+        scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
     });
-});
 
-
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+} else {
+    console.log('Element #scrollToTop not found.');
+}
