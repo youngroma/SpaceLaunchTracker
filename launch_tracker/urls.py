@@ -8,6 +8,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
-    path('launch/<str:pk>/', LaunchDetailView.as_view(), name="page"),
+    path('launch/<str:launch_id>/', LaunchDetailView.as_view(), name="page"),
     path("launch/<str:launch_id>/add/", AddToFavoritesView.as_view(), name="add_to_favorites"),
 ]

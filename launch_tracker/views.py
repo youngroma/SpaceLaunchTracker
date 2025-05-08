@@ -70,7 +70,25 @@ class AddToFavoritesView(LoginRequiredMixin, View):
 
 
 class LaunchDetailView(View):
-    def get(self, request, pk):
-        response = requests.get(f"https://api.spacexdata.com/v4/launches/{pk}")
-        launch = response.json()
-        return render(request, "launch_tracker/page.html", {"launch": launch})
+    def get(self, request, launch_id):
+        launch_response = requests.get(f"https://api.spacexdata.com/v4/launches/{launch_id}")
+        if launch_response.status_code != 200:
+            return render(request, '404.html')  # или обработай иначе
+        launch = launch_response.json()
+
+        rocket_id = launch.get("rocket")
+        rocket_data = {}
+        if rocket_id:
+            rocket_response = requests.get(f"https://api.spacexdata.com/v4/rockets/{rocket_id}")
+            if rocket_response.status_code == 200:
+                rocket_data = rocket_response.json()
+
+        date_str = launch.get("date_utc")
+        if date_str:
+            launch["date_converted"] = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+
+        launch["rocket"] = rocket_data
+
+        return render(request, "launch_tracker/page.html", {
+            "launch": launch
+        })

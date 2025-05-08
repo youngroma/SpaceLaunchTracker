@@ -4,7 +4,7 @@
 {% block title %}{{ launch.name }} | Launch Details{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/page.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -17,18 +17,16 @@
 
     <section class="launch-info">
         <h2 class="sci-fi-heading">{{ launch.name }}</h2>
-        <p class="launch-date"><strong>Launch Date:</strong> {{ launch.date_utc|date:"F j, Y H:i" }} UTC</p>
+        <p><strong>Launch Date:</strong> {{ launch.date_converted|date:"M d, Y H:i" }} UTC</p>
+
         <p><strong>Flight Number:</strong> {{ launch.flight_number }}</p>
 
         {% if launch.mission_name %}
             <p><strong>Mission Name:</strong> {{ launch.mission_name }}</p>
         {% endif %}
 
-        {% if launch.details %}
-            <p class="description">{{ launch.details }}</p>
-        {% else %}
-            <p class="description">No additional mission details available.</p>
-        {% endif %}
+        <div><strong>Description:</strong> {{ launch.rocket.description }}</div>
+
 
         {% if launch.launch_failure_details %}
             <div class="failure-details">
@@ -41,20 +39,14 @@
 
         <div class="launch-data-grid">
             <div><strong>Success:</strong> {{ launch.success|yesno:"Yes,No,Unknown" }}</div>
-            <div><strong>Rocket ID:</strong> {{ launch.rocket }}</div>
 
-                {% if launch.rocket.rocket_name %}
-                    <div><strong>Rocket Name:</strong> {{ launch.rocket.rocket_name }}</div>
-                {% endif %}
-
-                {% if launch.rocket.rocket_type %}
-                    <div><strong>Rocket Type:</strong> {{ launch.rocket.rocket_type }}</div>
-                {% endif %}
-
-                {% if launch.rocket.nationality %}
-                    <div><strong>Rocket Nationality:</strong> {{ launch.rocket.nationality }}</div>
-                {% endif %}
-
+                <div><strong>Rocket Name:</strong> {{ launch.rocket.name }}</div>
+                <div><strong>Rocket Type:</strong> {{ launch.rocket.type }}</div>
+                <div><strong>Rocket Country:</strong> {{ launch.rocket.country }}</div>
+                <div><strong>Company:</strong> {{ launch.rocket.company }}</div>
+                <div><strong>First Flight:</strong> {{ launch.rocket.first_flight }}</div>
+                <div><strong>Cost per Launch:</strong> ${{ launch.rocket.cost_per_launch|floatformat:"0" }}</div>
+                <div><strong>Success Rate:</strong> {{ launch.rocket.success_rate_pct }}%</div>
 
             <div><strong>Launchpad:</strong> {{ launch.launchpad }}</div>
             <div><strong>Upcoming:</strong> {{ launch.upcoming|yesno:"Yes,No" }}</div>
@@ -93,4 +85,8 @@
         </div>
     </section>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
