@@ -9,7 +9,7 @@
     <title>{% block title %}SpaceX Launch Tracker{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
-    <script src="{% static 'script.js' %}" defer></script>
+    <script src="{% static 'js/script.js' %}" defer></script>
 </head>
 <body>
     <header>
@@ -42,5 +42,8 @@
         {% block content %}
         {% endblock %}
     </main>
+
+    <canvas id="starfield"></canvas>
+
 </body>
 </html>
