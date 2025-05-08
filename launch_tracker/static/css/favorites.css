@@ -33,8 +33,8 @@
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
-    overflow: hidden; /* Чтобы текст не выходил за пределы */
-    max-height: 400px; /* Ограничим максимальную высоту карточки */
+    overflow: hidden;
+    max-height: 400px;
 }
 
 .launch-card:hover {
@@ -46,17 +46,17 @@
     font-size: 1.4em;
     color: #00ffff;
     margin: 0.5em 0;
-    word-wrap: break-word; /* Разбиение слов, если они не помещаются */
-    overflow-wrap: break-word; /* Для современных браузеров */
-    white-space: normal; /* Позволяет переносить длинные строки */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .launch-card p {
     font-size: 1em;
     color: #aaa;
-    word-wrap: break-word; /* Разбиение текста */
+    word-wrap: break-word;
     overflow-wrap: break-word;
-    text-overflow: ellipsis; /* Добавит многоточие, если текст слишком длинный */
+    text-overflow: ellipsis;
 }
 
 .launch-link {
@@ -73,3 +73,22 @@
     color: #aaa;
     margin-top: 1em;
 }
+
+
+.btn-remove-favorite {
+    margin-top: 1em;
+    padding: 0.5em 1.2em;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-remove-favorite:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+

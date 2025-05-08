@@ -1,5 +1,6 @@
 from datetime import datetime
 import requests
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
@@ -63,6 +64,12 @@ class FavoritesView(TemplateView):
             context["favorites"] = []
         return context
 
+@login_required
+def remove_from_favorites(request, launch_id):
+    if request.method == 'POST':
+        FavoriteLaunch.objects.filter(user=request.user, launch_id=launch_id).delete()
+    return redirect('favorites')
+
 class AddToFavoritesView(LoginRequiredMixin, View):
     def post(self, request, launch_id):
         FavoriteLaunch.objects.get_or_create(user=request.user, launch_id=launch_id)
@@ -73,7 +80,7 @@ class LaunchDetailView(View):
     def get(self, request, launch_id):
         launch_response = requests.get(f"https://api.spacexdata.com/v4/launches/{launch_id}")
         if launch_response.status_code != 200:
-            return render(request, '404.html')  # или обработай иначе
+            return render(request, '404.html')
         launch = launch_response.json()
 
         rocket_id = launch.get("rocket")

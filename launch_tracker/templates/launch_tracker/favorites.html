@@ -14,16 +14,22 @@
 
     {% if favorites %}
         <div class="launch-grid">
-            {% for favorite in favorites %}
-                <div class="launch-card">
-                    <a href="{% url 'page' favorite.launch_id %}" class="launch-link">
-                        <div class="launch-id-container">
-                            <h3>Launch ID: {{ favorite.launch_id }}</h3>
-                        </div>
-                        <p>Click to view details</p>
-                    </a>
-                </div>
-            {% endfor %}
+               {% for favorite in favorites %}
+                    <div class="launch-card">
+                        <a href="{% url 'page' favorite.launch_id %}" class="launch-link">
+                            <div class="launch-id-container">
+                                <h3>Launch ID: {{ favorite.launch_id }}</h3>
+                            </div>
+                            <p>Click to view details</p>
+                        </a>
+
+                        <form method="post" action="{% url 'remove_from_favorites' favorite.launch_id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-remove-favorite">Remove from Favorites</button>
+                        </form>
+                    </div>
+                {% endfor %}
+
         </div>
     {% else %}
         <p class="no-favorites-message">You haven't added any launches to favorites yet.</p>

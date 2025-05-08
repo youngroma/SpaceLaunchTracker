@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import LaunchListView, FavoritesView, LaunchDetailView, AddToFavoritesView
+from .views import LaunchListView, FavoritesView, LaunchDetailView, AddToFavoritesView, remove_from_favorites
 from .auth_views import LoginView, LogoutView, RegisterView
 
 urlpatterns = [
@@ -10,4 +10,5 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('launch/<str:launch_id>/', LaunchDetailView.as_view(), name="page"),
     path("launch/<str:launch_id>/add/", AddToFavoritesView.as_view(), name="add_to_favorites"),
+    path("launch/<str:launch_id>/remove/", remove_from_favorites, name="remove_from_favorites"),
 ]
